@@ -42,7 +42,7 @@ def get_reservation_by_name(name:str):
 def get_reservation_by_table(table: int):
     pass
 
-@app.post("/reservation")
+@app.post("/reservation/")
 def reserve(reservation : Reservation):
     query = collection.find({"table_number": reservation.table_number})
     for i in query:
