@@ -2,11 +2,17 @@ from fastapi import FastAPI, HTTPException
 from pymongo import MongoClient
 from pydantic import BaseModel
 from fastapi.encoders import jsonable_encoder
+from typing import Optional
 
 class Reservation(BaseModel):
+    '''
     name : str
     time: int
     table_number: int
+    '''
+    name : Optional[str] = None
+    time: Optional[int] = None
+    table_number: Optional[int] = None
     
 client = MongoClient('mongodb://localhost', 27017)
 
