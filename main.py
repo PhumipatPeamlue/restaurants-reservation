@@ -86,4 +86,8 @@ def update_reservation(reservation: Reservation):
 
 @app.delete("/reservation/delete/{name}/{table_number}")
 def cancel_reservation(name: str, table_number : int):
-    pass
+    query = collection.find_one({"name": name, "table_number": table_number})
+    if query is None:
+        raise HTTPException(404, "Can't find anyone who reserved by this name and this table.")
+    collection.delete_one({"name": name, "table_number": table_number})
+    return {"result": "Cancel the reservation complete!"}
