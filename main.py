@@ -44,9 +44,23 @@ def get_reservation_by_name(name:str):
     else:
         return {"result": res}
 
-@app.get("reservation/by-table/{table}")
+@app.get("/reservation/by-table/{table}")
 def get_reservation_by_table(table: int):
-    pass
+    query = collection.find({"table_number": table})
+    res = {}
+    No = 1
+    for i in query:
+        obj = Reservation()
+        obj.name = i["name"]
+        obj.time = i["time"]
+        obj.table_number = i["table_number"]
+        res[No] = jsonable_encoder(obj)
+        No += 1
+    
+    if len(res) == 0:
+        raise HTTPException(404, "No one reserve this table.")
+    else:
+        return {"result": res}
 
 @app.post("/reservation/")
 def reserve(reservation : Reservation):
